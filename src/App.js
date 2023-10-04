@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Counter from "./Components/Counter";
+import "./App.css";
 
 function App() {
+  const [counters, setCounters] = useState([]);
+
+  const addCounter = () => {
+    setCounters([...counters, Date.now()]);
+  };
+
+  const closeCounter = (id) => {
+    setCounters(counters.filter((counter) => counter !== id));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button className="add-button" onClick={addCounter}>
+        Add Counter
+      </button>
+      <div className="counters">
+        {counters.map((id, index) => (
+          <Counter
+            key={id}
+            counterNumber={index + 1}
+            onClose={() => closeCounter(id)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
